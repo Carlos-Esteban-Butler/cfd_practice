@@ -16,7 +16,7 @@ cases = [
     ]
 
 # function to process data by gathering time and averaged velocities in a list
-cutOffTime = 3 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
+cutOffTime = -1 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
 def calcAvgU (case):
     t = []
     avgU = []
