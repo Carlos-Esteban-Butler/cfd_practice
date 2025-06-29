@@ -6,9 +6,11 @@ import os
 parent_dir = os.path.dirname(os.path.dirname(__file__))
 pathToCases = os.path.join(parent_dir, "elbow_cases")
 # fetch foam cases
-case_tri = FoamCase(os.path.join(pathToCases, "tri"))
-case_quad = FoamCase(os.path.join(pathToCases, "elbow_quad"))
-case_quad_refined = FoamCase(os.path.join(pathToCases, "elbow_quad_refined"))
+cases = [
+    {"name": "case_tri", "case": FoamCase(os.path.join(pathToCases, "elbow_tri"))},
+    {"name": "case_quad", "case": FoamCase(os.path.join(pathToCases, "elbow_quad"))},
+    {"name": "case_quad_refined", "case": FoamCase(os.path.join(pathToCases, "elbow_quad_refined"))}
+    ]
 
 # function to process data by gathering time and averaged velocities in a list
 def calcAvgU (case):
@@ -25,4 +27,8 @@ def calcAvgU (case):
         avgU.append((np.mean(twodU, axis=0)).tolist())
     return t, avgU
 
-print(calcAvgU(case_quad))
+# run the function for each case and save the result
+for case in cases:
+    case["t"], case["avgU"] = calcAvgU(case["case"])
+    
+print(cases)
