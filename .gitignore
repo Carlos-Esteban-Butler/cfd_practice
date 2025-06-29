@@ -1,0 +1,6 @@
+# due to wsl
+*Zone.Identifier
+*Copy.Identifier
+
+# ignore venv files
+/.venv
