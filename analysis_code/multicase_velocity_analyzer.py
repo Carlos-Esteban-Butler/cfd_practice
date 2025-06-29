@@ -16,7 +16,7 @@ cases = [
     ]
 
 # function to process data by gathering time and averaged velocities in a list
-cutOffTime = -1 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
+cutOffTime = 3 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
 def calcAvgU (case):
     t = []
     avgU = []
@@ -29,8 +29,9 @@ def calcAvgU (case):
         rawU = time["U"].internal_field
         twodU = rawU[:, :-1] # cut off z component of U, since working in 2d
         avgU.append((np.mean(twodU, axis=0)))
+        
     avgU = np.array(avgU)
-    return t, avgU[:,0].tolist(), avgU[:,1].tolist()
+    return t, avgU[:,0], avgU[:,1]
 
 # run the function for each case and save the result, then translate the data to a dataframe
 plotDF = ""
@@ -39,20 +40,21 @@ for case in cases:
     tempDFx = pd.DataFrame({"Case": np.full((len(case["t"])), case["name"]),
                             "Direction": np.full((len(case["t"])), "X"),
                             "Time [s]": case["t"],
-                            "Average Velocity [ ]": case["avgUx"],
+                            "Average Velocity [m/s]": case["avgUx"],
                             })
     tempDFy = pd.DataFrame({"Case": np.full((len(case["t"])), case["name"]),
                             "Direction": np.full((len(case["t"])), "Y"),
                             "Time [s]": case["t"],
-                            "Average Velocity [ ]": case["avgUy"],
+                            "Average Velocity [m/s]": case["avgUy"],
                             })
     if isinstance(plotDF, str): plotDF = pd.concat([tempDFx, tempDFy])
     else: plotDF = pd.concat([plotDF, pd.concat([tempDFx, tempDFy])])
+    
 # plot the cases
 sns.set_theme() # set the plot theme
 sns.relplot(
     data=plotDF, col="Direction",
-    x="Time [s]", y="Average Velocity [ ]", kind="line", hue="Case"
+    x="Time [s]", y="Average Velocity [m/s]", kind="line", hue="Case"
 )
 
 plt.show()
