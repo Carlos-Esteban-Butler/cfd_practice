@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # get path to case
 parent_dir = os.path.dirname(os.path.dirname(__file__))
-pathToCases = os.path.join(parent_dir, "elbow_cases")
+pathToCases = os.path.join(parent_dir, "cases", "elbow")
 # and fetch foam cases
 cases = [
     {"name": "case_tri", "case": FoamCase(os.path.join(pathToCases, "elbow_tri"))},
@@ -16,7 +16,7 @@ cases = [
     ]
 
 # function to process data by gathering time and averaged velocities in a list
-cutOffTime = -1 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
+cutOffTime = 3 # can choose a time to cutoff the processing. -1 corresponds to no cutoff
 def calcAvgU (case):
     t = []
     avgU = []
